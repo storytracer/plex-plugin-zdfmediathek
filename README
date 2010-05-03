@@ -1,0 +1,16 @@
+ZDF Mediathek Plugin for Plex v0.1 alpha
+++++++++++++++++++++++++++++++++++++++++
+
+Dieses Plex Plugin bietet Zugriff auf die ZDF Mediathek.
+Es befindet sich noch in einem frühen Entwicklungsstadium
+und arbeitet noch sehr instabil.
+
+----------
+CHANGE LOG
+----------
+
+Version 0.1 alpha
+-----------------
+- erste Version
+- Auswahl nach Datum - 7 Tage zurück (Sendung verpasst?)
+- einfaches Video-Playback
