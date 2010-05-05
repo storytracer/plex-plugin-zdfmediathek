@@ -49,7 +49,7 @@ def Start():
 
     MediaContainer.art = R(ART)
     MediaContainer.title1 = NAME
-    DirectoryItem.thumb = R(ICON)
+    #DirectoryItem.thumb = R(ICON)
 
 def VideoMainMenu():
     dir = MediaContainer(viewGroup="List")
@@ -68,28 +68,30 @@ def VideoMainMenu():
 
 def DateMenu(sender, arg):
   dir = MediaContainer(viewGroup="InfoList")
-  Log(BASE_URL + arg)
   site = XML.ElementFromURL(BASE_URL + arg, True)
-  
   showElements = site.xpath("//div[@class='beitragListe']//li")
   elementsCount = len(showElements)
   for i in range(0, elementsCount):
     showElement = showElements[i]
-    link_element = showElement.xpath(".//b/a")[0]
-    show_url = str(link_element.xpath('@href')[0])
-    show_title = str(link_element.text)
-    subtitleElements = showElement.xpath(".//p[@class='grey']/a")
-    showSubtitle = subtitleElements[len(subtitleElements)-1].text
+    link_elements = showElement.xpath(".//b/a")
+    if (len(link_elements) > 0):
+      link_element = link_elements[0]
+      show_url = str(link_element.xpath('@href')[0])
+      show_title = str(link_element.text)
+      subtitleElements = showElement.xpath(".//p[@class='grey']/a")
+      showSubtitle = subtitleElements[len(subtitleElements)-1].text
     
-    img_url = str(showElement.xpath(".//img")[0].xpath("@src")[0])
-    img_url_parts = img_url.split("/")
-    img_url_parts.pop()
-    large_img_url = "/".join(img_url_parts)
-    large_img_url = BASE_URL + large_img_url.replace("94x65", "485x273")
+      img_url = str(showElement.xpath(".//img")[0].xpath("@src")[0])
+      img_url_parts = img_url.split("/")
+      img_url_parts.pop()
+      large_img_url = "/".join(img_url_parts)
+      large_img_url = BASE_URL + large_img_url.replace("94x65", "485x273")
     
-    showDetails = LoadShowDetails(show_url)
-    if (len(showDetails) > 0):
-      dir.Append(VideoItem(showDetails[0], title = show_title, subtitle = showSubtitle, summary = showDetails[1], thumb = large_img_url))
+      showDetails = LoadShowDetails(show_url)
+      if len(showDetails) > 0:
+        dir.Append(VideoItem(showDetails[0], title = show_title, subtitle = showSubtitle, summary = showDetails[1], thumb = large_img_url))
+      else:
+        dir.Append(Function(DirectoryItem(DateMenu, title = show_title, subtitle = showSubtitle, thumb = large_img_url), arg = show_url))
     
   return dir
   
